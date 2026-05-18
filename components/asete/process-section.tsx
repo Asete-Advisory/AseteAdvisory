@@ -1,19 +1,24 @@
+import Image from "next/image"
+
 const STEPS = [
   {
-    number: "I",
     title: "Diagnóstico",
+    image: "/images/asete-reuniao.jpg",
+    alt: "Reunião consultiva para diagnóstico patrimonial",
     description:
       "Imersão profunda no patrimônio, nos objetivos e nos riscos. Entendemos antes de propor.",
   },
   {
-    number: "II",
     title: "Estruturação",
+    image: "/images/asete-predio.jpeg",
+    alt: "Arquitetura corporativa representando estrutura patrimonial",
     description:
       "Organização patrimonial desenvolvida de forma integrada entre as áreas do CIISC.",
   },
   {
-    number: "III",
     title: "Acompanhamento",
+    image: "/images/cta-architecture.jpg",
+    alt: "Estrutura institucional representando acompanhamento estratégico",
     description:
       "Reuniões periódicas, ajustes táticos e leitura permanente do cenário macro e regulatório.",
   },
@@ -33,24 +38,36 @@ export function ProcessSection() {
           </h2>
         </div>
 
-        <div className="mt-20 grid gap-px bg-border lg:grid-cols-3">
-          {STEPS.map((step) => (
+        <div className="mt-20 space-y-px bg-border">
+          {STEPS.map((step, index) => (
             <div
-              key={step.number}
-              className="group relative bg-secondary p-8 transition-colors hover:bg-background lg:p-12"
+              key={step.title}
+              className="group grid gap-0 bg-secondary transition-colors hover:bg-background lg:grid-cols-12"
             >
-              <div className="flex items-baseline justify-between">
-                <span className="font-serif text-5xl font-light text-accent lg:text-6xl">
-                  {step.number}
-                </span>
-                <span className="font-mono text-[10px] tracking-[0.3em] uppercase text-muted-foreground">
-                  Etapa
-                </span>
+              <div
+                className={`relative aspect-[16/10] w-full overflow-hidden lg:col-span-5 ${
+                  index % 2 === 1 ? "lg:order-2 lg:col-start-8" : ""
+                }`}
+              >
+                <Image
+                  src={step.image}
+                  alt={step.alt}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
               </div>
-              <h3 className="mt-12 font-serif text-3xl font-light text-primary lg:text-4xl">
-                {step.title}
-              </h3>
-              <p className="mt-5 text-sm leading-relaxed text-muted-foreground">{step.description}</p>
+              <div
+                className={`flex flex-col justify-center p-8 lg:col-span-6 lg:p-14 ${
+                  index % 2 === 1 ? "lg:order-1" : "lg:col-start-7"
+                }`}
+              >
+                <h3 className="font-serif text-3xl font-light text-primary lg:text-4xl">
+                  {step.title}
+                </h3>
+                <p className="mt-5 max-w-lg text-sm leading-relaxed text-muted-foreground">
+                  {step.description}
+                </p>
+              </div>
             </div>
           ))}
         </div>

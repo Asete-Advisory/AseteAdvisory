@@ -1,19 +1,27 @@
+import Image from "next/image"
+
 const PROFILES = [
   {
     label: "01",
     title: "Empresários",
+    image: "/images/asete-predio.jpeg",
+    alt: "Edifício corporativo representando empresários",
     description:
       "Que precisam separar a saúde financeira da empresa do patrimônio pessoal e estruturar uma sucessão sólida.",
   },
   {
     label: "02",
     title: "Profissionais de alta renda",
+    image: "/images/asete-reuniao.jpg",
+    alt: "Reunião consultiva representando profissionais de alta renda",
     description:
       "Médicos, executivos e sócios de escritórios que buscam transformar receita recorrente em patrimônio duradouro.",
   },
   {
     label: "03",
     title: "Investidores",
+    image: "/images/cta-architecture.jpg",
+    alt: "Arquitetura institucional representando investidores",
     description:
       "Que já acumularam patrimônio relevante e desejam uma visão consolidada, independente e criteriosa.",
   },
@@ -41,17 +49,51 @@ export function ClientProfileSection() {
           </div>
         </div>
 
-        <div className="mt-20 grid gap-12 lg:grid-cols-3 lg:gap-16">
-          {PROFILES.map((profile) => (
-            <article key={profile.label} className="border-t border-border pt-8">
-              <h3 className="font-serif text-3xl font-light text-primary lg:text-4xl">
-                {profile.title}
+        <div className="mt-20 grid gap-10 lg:grid-cols-12 lg:items-start">
+          <article className="lg:col-span-7">
+            <div className="relative aspect-[16/10] w-full overflow-hidden">
+              <Image
+                src={PROFILES[0].image}
+                alt={PROFILES[0].alt}
+                fill
+                className="object-cover"
+              />
+            </div>
+            <div className="mt-8 border-t border-border pt-8">
+              <h3 className="font-serif text-3xl font-light text-primary lg:text-5xl">
+                {PROFILES[0].title}
               </h3>
-              <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
-                {profile.description}
+              <p className="mt-5 max-w-xl text-sm leading-relaxed text-muted-foreground">
+                {PROFILES[0].description}
               </p>
-            </article>
-          ))}
+            </div>
+          </article>
+
+          <div className="grid gap-10 lg:col-span-5">
+            {PROFILES.slice(1).map((profile) => (
+              <article
+                key={profile.label}
+                className="grid gap-6 border-t border-border pt-6 sm:grid-cols-[11rem_1fr] lg:grid-cols-1 xl:grid-cols-[12rem_1fr]"
+              >
+                <div className="relative aspect-[4/3] w-full overflow-hidden">
+                  <Image
+                    src={profile.image}
+                    alt={profile.alt}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div>
+                  <h3 className="font-serif text-3xl font-light text-primary lg:text-4xl">
+                    {profile.title}
+                  </h3>
+                  <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                    {profile.description}
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     </section>
