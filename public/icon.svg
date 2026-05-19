@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="ASETE Advisory">
+  <rect width="64" height="64" rx="10" fill="#0b1b31"/>
+  <path
+    d="M13 43.5 33.5 20H51M24.5 31.5H47M23.2 43.5H51"
+    fill="none"
+    stroke="#f5f7fb"
+    stroke-width="4.2"
+    stroke-linecap="square"
+    stroke-linejoin="miter"
+  />
+</svg>

@@ -1,6 +1,5 @@
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
-import { WHATSAPP_CONTACT_URL } from "@/lib/contact";
+import { ClientJourneyModal } from "@/components/asete/client-journey-modal";
 
 export function CtaSection() {
   return (
@@ -9,6 +8,8 @@ export function CtaSection() {
         src="/images/cta-architecture.jpg"
         alt="Detalhe arquitetônico institucional"
         fill
+        priority
+        loading="eager"
         className="object-cover"
       />
       <div className="absolute inset-0 bg-primary/85" aria-hidden="true" />
@@ -34,15 +35,7 @@ export function CtaSection() {
           </div>
 
           <div className="lg:col-span-4 lg:flex lg:justify-end">
-            <a
-              href={WHATSAPP_CONTACT_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group inline-flex w-full max-w-full items-center justify-between gap-4 border border-accent bg-accent px-5 py-5 text-[11px] uppercase tracking-[0.1em] text-accent-foreground transition-colors hover:bg-primary-foreground hover:border-primary-foreground hover:text-primary sm:w-auto sm:gap-6 sm:whitespace-nowrap sm:px-8 sm:text-xs sm:tracking-[0.2em]"
-            >
-              <span>Solicitar análise personalizada</span>
-              <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
-            </a>
+            <ClientJourneyModal />
           </div>
         </div>
       </div>
