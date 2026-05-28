@@ -92,7 +92,7 @@
 
 @theme inline {
   --font-sans: var(--font-inter);
-  --font-serif: var(--font-cormorant);
+  --font-serif: var(--font-newsreader);
   --font-mono: 'Geist Mono', 'Geist Mono Fallback';
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -141,6 +141,7 @@
     font-feature-settings: "ss01", "cv11";
   }
   .font-serif {
-    font-feature-settings: "liga", "dlig";
+    font-feature-settings: "liga";
+    font-optical-sizing: auto;
   }
 }

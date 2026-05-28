@@ -161,6 +161,7 @@ export function ClientJourneyBoard() {
     phone: "",
   })
   const [modalOpen, setModalOpen] = useState(false)
+  const [contactModalOpen, setContactModalOpen] = useState(false)
   const [rolling, setRolling] = useState(false)
   const [dieValue, setDieValue] = useState(1)
 
@@ -228,6 +229,7 @@ export function ClientJourneyBoard() {
   function openStep(index: number) {
     if (!canOpenStep(index)) return
     setActiveStep(Math.min(Math.max(index, 0), JOURNEY_STEPS.length - 1))
+    setContactModalOpen(false)
     setModalOpen(true)
   }
 
@@ -253,6 +255,7 @@ export function ClientJourneyBoard() {
     setSelectedDecisions({})
     setContact({ name: "", email: "", phone: "" })
     setDieValue(1)
+    setContactModalOpen(false)
     setModalOpen(true)
   }
 
@@ -301,15 +304,6 @@ export function ClientJourneyBoard() {
               >
                 Abrir missão
                 <ArrowRight className="size-4" />
-              </button>
-              <button
-                type="button"
-                onClick={rollNext}
-                disabled={currentSelections.length === 0 || isLastStep || rolling}
-                className="inline-flex min-h-12 items-center justify-center gap-2 bg-primary px-5 py-3 text-xs font-medium tracking-[0.14em] uppercase text-primary-foreground transition-colors hover:bg-accent hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-40"
-              >
-                <Dices className={cn("size-4", rolling && "animate-spin")} />
-                Jogar próxima casa
               </button>
             </div>
           </div>
@@ -413,71 +407,6 @@ export function ClientJourneyBoard() {
                 </p>
               </div>
 
-              {isLastStep ? (
-                <div className="mt-7 space-y-5 border-t border-border pt-6">
-                  <p className="text-sm leading-relaxed text-muted-foreground">
-                    Para concluir o jogo e enviar seu resumo, informe seus dados de
-                    contato. Esta etapa aparece somente no final.
-                  </p>
-
-                  <div className="grid gap-3 sm:grid-cols-3">
-                    <label className="space-y-2">
-                      <span className="flex items-center gap-2 text-xs font-medium tracking-[0.16em] uppercase text-muted-foreground">
-                        <User className="size-3.5" />
-                        Nome
-                      </span>
-                      <Input
-                        value={contact.name}
-                        onChange={(event) =>
-                          setContact((current) => ({
-                            ...current,
-                            name: event.target.value,
-                          }))
-                        }
-                        className="h-11 rounded-none bg-background"
-                        autoComplete="name"
-                      />
-                    </label>
-                    <label className="space-y-2">
-                      <span className="flex items-center gap-2 text-xs font-medium tracking-[0.16em] uppercase text-muted-foreground">
-                        <Mail className="size-3.5" />
-                        E-mail
-                      </span>
-                      <Input
-                        type="email"
-                        value={contact.email}
-                        onChange={(event) =>
-                          setContact((current) => ({
-                            ...current,
-                            email: event.target.value,
-                          }))
-                        }
-                        className="h-11 rounded-none bg-background"
-                        autoComplete="email"
-                      />
-                    </label>
-                    <label className="space-y-2">
-                      <span className="flex items-center gap-2 text-xs font-medium tracking-[0.16em] uppercase text-muted-foreground">
-                        <Phone className="size-3.5" />
-                        Telefone
-                      </span>
-                      <Input
-                        type="tel"
-                        value={contact.phone}
-                        onChange={(event) =>
-                          setContact((current) => ({
-                            ...current,
-                            phone: event.target.value,
-                          }))
-                        }
-                        className="h-11 rounded-none bg-background"
-                        autoComplete="tel"
-                      />
-                    </label>
-                  </div>
-                </div>
-              ) : null}
-
               <div className="mt-7 flex flex-col gap-3 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
                 <button
                   type="button"
@@ -499,21 +428,18 @@ export function ClientJourneyBoard() {
                       >
                         Reiniciar
                       </button>
-                      <a
-                        href={contactReady ? whatsappUrl : undefined}
-                        target="_blank"
-                        rel="noreferrer"
-                        aria-disabled={!contactReady}
-                        className={cn(
-                          "inline-flex min-h-11 items-center justify-center gap-2 px-5 py-3 text-xs font-medium tracking-[0.14em] uppercase transition-colors",
-                          contactReady
-                            ? "bg-accent text-accent-foreground hover:bg-primary hover:text-primary-foreground"
-                            : "pointer-events-none bg-muted text-muted-foreground",
-                        )}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setModalOpen(false)
+                          setContactModalOpen(true)
+                        }}
+                        disabled={currentSelections.length === 0}
+                        className="inline-flex min-h-11 items-center justify-center gap-2 bg-primary px-5 py-3 text-xs font-medium tracking-[0.14em] uppercase text-primary-foreground transition-colors hover:bg-accent hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-40"
                       >
-                        Enviar resumo
-                        <MessageCircle className="size-4" />
-                      </a>
+                        Concluir rodada
+                        <ArrowRight className="size-4" />
+                      </button>
                     </>
                   ) : (
                     <button
@@ -526,6 +452,126 @@ export function ClientJourneyBoard() {
                       <Dices className={cn("size-4", rolling && "animate-spin")} />
                     </button>
                   )}
+                </div>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        <Dialog open={contactModalOpen} onOpenChange={setContactModalOpen}>
+          <DialogContent className="max-h-[92vh] overflow-y-auto border-primary/10 p-0 sm:max-w-3xl">
+            <div className="border-b border-border bg-primary px-6 py-6 text-primary-foreground sm:px-8">
+              <DialogHeader>
+                <p className="text-xs font-medium tracking-[0.24em] uppercase text-primary-foreground/55">
+                  Rodada concluída
+                </p>
+                <DialogTitle className="font-serif text-4xl font-light leading-tight sm:text-5xl">
+                  Receba seu resumo da jornada
+                </DialogTitle>
+                <DialogDescription className="text-base leading-relaxed text-primary-foreground/70">
+                  Agora informe seus dados de contato para enviar as escolhas feitas
+                  no tabuleiro e solicitar uma análise personalizada.
+                </DialogDescription>
+              </DialogHeader>
+            </div>
+
+            <div className="px-6 py-7 sm:px-8">
+              <p className="text-xs font-medium tracking-[0.2em] uppercase text-primary">
+                Dados de contato
+              </p>
+
+              <div className="mt-5 grid gap-4 sm:grid-cols-3">
+                <label className="space-y-2">
+                  <span className="flex items-center gap-2 text-xs font-medium tracking-[0.16em] uppercase text-muted-foreground">
+                    <User className="size-3.5" />
+                    Nome
+                  </span>
+                  <Input
+                    value={contact.name}
+                    onChange={(event) =>
+                      setContact((current) => ({
+                        ...current,
+                        name: event.target.value,
+                      }))
+                    }
+                    className="h-12 rounded-none bg-background"
+                    autoComplete="name"
+                  />
+                </label>
+                <label className="space-y-2">
+                  <span className="flex items-center gap-2 text-xs font-medium tracking-[0.16em] uppercase text-muted-foreground">
+                    <Mail className="size-3.5" />
+                    E-mail
+                  </span>
+                  <Input
+                    type="email"
+                    value={contact.email}
+                    onChange={(event) =>
+                      setContact((current) => ({
+                        ...current,
+                        email: event.target.value,
+                      }))
+                    }
+                    className="h-12 rounded-none bg-background"
+                    autoComplete="email"
+                  />
+                </label>
+                <label className="space-y-2">
+                  <span className="flex items-center gap-2 text-xs font-medium tracking-[0.16em] uppercase text-muted-foreground">
+                    <Phone className="size-3.5" />
+                    Telefone
+                  </span>
+                  <Input
+                    type="tel"
+                    value={contact.phone}
+                    onChange={(event) =>
+                      setContact((current) => ({
+                        ...current,
+                        phone: event.target.value,
+                      }))
+                    }
+                    className="h-12 rounded-none bg-background"
+                    autoComplete="tel"
+                  />
+                </label>
+              </div>
+
+              <div className="mt-7 flex flex-col gap-3 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setContactModalOpen(false)
+                    setModalOpen(true)
+                  }}
+                  className="inline-flex min-h-11 items-center justify-center gap-2 border border-border px-5 py-3 text-xs font-medium tracking-[0.14em] uppercase text-primary transition-colors hover:bg-secondary"
+                >
+                  <ArrowLeft className="size-4" />
+                  Voltar às escolhas
+                </button>
+
+                <div className="flex flex-col gap-3 sm:flex-row">
+                  <button
+                    type="button"
+                    onClick={restartJourney}
+                    className="inline-flex min-h-11 items-center justify-center border border-border px-5 py-3 text-xs font-medium tracking-[0.14em] uppercase text-primary transition-colors hover:bg-secondary"
+                  >
+                    Reiniciar
+                  </button>
+                  <a
+                    href={contactReady ? whatsappUrl : undefined}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-disabled={!contactReady}
+                    className={cn(
+                      "inline-flex min-h-11 items-center justify-center gap-2 px-5 py-3 text-xs font-medium tracking-[0.14em] uppercase transition-colors",
+                      contactReady
+                        ? "bg-accent text-accent-foreground hover:bg-primary hover:text-primary-foreground"
+                        : "pointer-events-none bg-muted text-muted-foreground",
+                    )}
+                  >
+                    Enviar resumo
+                    <MessageCircle className="size-4" />
+                  </a>
                 </div>
               </div>
             </div>

@@ -57,6 +57,7 @@ export function AboutSection() {
                 src="/images/asete-reuniao.jpg"
                 alt="Reunião consultiva da equipe ASETE"
                 fill
+                loading="eager"
                 className="object-cover"
               />
             </div>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Cormorant_Garamond } from "next/font/google";
+import { Inter, Newsreader } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
@@ -9,10 +9,10 @@ const inter = Inter({
   display: "swap",
 });
 
-const cormorant = Cormorant_Garamond({
+const newsreader = Newsreader({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
-  variable: "--font-cormorant",
+  variable: "--font-newsreader",
   display: "swap",
 });
 
@@ -38,7 +38,7 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
-      className={`bg-background ${inter.variable} ${cormorant.variable}`}
+      className={`bg-background ${inter.variable} ${newsreader.variable}`}
     >
       <body className="font-sans antialiased">
         {children}
