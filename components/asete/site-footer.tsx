@@ -24,22 +24,27 @@ export function SiteFooter() {
             </p>
             <ul className="mt-5 space-y-3 text-sm text-foreground/85">
               <li>
-                <a href="#sobre" className="hover:text-primary">
+                <a href="/#sobre" className="hover:text-primary">
                   Sobre
                 </a>
               </li>
               <li>
-                <a href="#pilares" className="hover:text-primary">
+                <a href="/#pilares" className="hover:text-primary">
                   Pilares
                 </a>
               </li>
               <li>
-                <a href="#como-atuamos" className="hover:text-primary">
+                <a href="/#como-atuamos" className="hover:text-primary">
                   Como Atuamos
                 </a>
               </li>
               <li>
-                <a href="#diferenciais" className="hover:text-primary">
+                <a href="/jornada" className="hover:text-primary">
+                  Jornada
+                </a>
+              </li>
+              <li>
+                <a href="/#diferenciais" className="hover:text-primary">
                   Diferenciais
                 </a>
               </li>
